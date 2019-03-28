@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>动画</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		#box {
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+		}
+		#box1 {
+			width: 100px;
+			height: 100px;
+			background-color: blue;
+			margin-top: 150px;
+			position: absolute;
+		}
+	</style>
+</head>
+<body>
+	<input type="button" value="动画目标500" id="btn">
+	<input type="button" value="动画目标1000" id="btn1">
+	<div id="box"></div>
+	<div id="box1"></div>
+
+	<script>
+		let btn = document.getElementById('btn')
+		let btn1 = document.getElementById('btn1')
+		let box = document.getElementById('box')
+		let box1 = document.getElementById('box1')
+		//let timer = null
+		btn.onclick = function () {
+			animate(box, 500, function () {
+				animate(box1, 500)
+			})
+			//animate(box1)()
+		}
+
+		btn1.onclick = function () {
+			animate(box, 1000)
+		}
+
+		/**
+		 * [animate description] 动画封装
+		 * @param  {[type]} element [description] 动画元素
+		 * @return {[type]}         [description]
+		 */
+		function animate(element, target, cb) {			
+			if (element.timerId) {
+				clearInterval(element.timerId)
+			}
+			// let target = 500
+			let step = 10
+			element.timerId = setInterval(function () {			
+
+				let current = element.offsetLeft
+
+				// 如果当前位置大于目标位置 将step取负
+				if (current > target) {
+					step = -Math.abs(step)
+				}
+
+				// 比较是否要到目标位置 通过判断当前位置和目标位置的差值的绝对值 和 step绝对值相比是否小于0 
+				if (Math.abs(current - target) < Math.abs(step)) {					
+					element.style.left = target + 'px'
+					clearInterval(element.timerId)
+
+					// 回调函数
+					if (cb) {
+						cb()
+					}
+					return false
+				}
+				// if (current >= target) {					
+				// 	element.style.left = target + 'px'
+				// 	clearInterval(element.timerId)
+				// 	return false
+				// }
+
+				current += step
+
+				element.style.left = current + 'px'
+
+			}, 20)
+			
+		}
+		
+		
+		
+	</script>
+</body>
+</html>

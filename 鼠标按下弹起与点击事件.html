@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="box">
+		
+	</div>
+	<script>
+		let mouse = false
+		let down = null
+		document.onmousedown = function (e) {
+			console.log(1)
+			down = setTimeout(function () {
+				mouse = true
+				console.log('down')
+			}, 200)
+		}
+
+		document.onmouseup = function (e) {
+			console.log(2)
+		}
+
+		document.onclick = function (e) {	
+			clearTimeout(down)
+			if (!mouse) {
+				console.log('click')
+			} else {
+				mouse = false
+			}
+		}
+	</script>
+</body>
+</html>

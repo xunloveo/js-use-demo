@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>图片自适应</title>
+	<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js">
+</script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		div {
+			float: left;
+			margin-left: 20px;
+		}
+		#box {
+			text-align: center;
+			vertical-align: middle;
+		}
+		#box  img{
+			vertical-align: middle;
+		}
+	</style>
+</head>
+<body>
+	<div>
+		<img src="tyjj1.jpg" alt="" id="img1">
+	</div>
+	<div style="width: 500px; height: 400px;" id="box">
+		<img src="tyjj1.jpg" alt="" id="img2">
+	</div>
+
+	<script>
+		/**
+		 * [autoImgSize description]
+		 * @param  {[type]} w  [description] 图片 原宽
+		 * @param  {[type]} h  [description] 图片 原高
+		 * @param  {[type]} w1 [description] 容器 宽 
+		 * @param  {[type]} w2 [description]  容器 高
+		 * @return {[type]}    [description]
+		 */
+		function autoImgSize(w, h, w1, h1) {
+			if (w * h1 > w1 * h) {
+				// 以宽为准
+				return {
+					width: w1,
+					height: h * w1 / w
+				}
+			} else {
+				return {
+					width: w * h1 / h,
+					height: h1
+				}
+			}
+		}
+
+		let img1 = $("#img1")
+		let img2 = $("#img2")
+		let box = $('#box')
+		let w = img1.width()
+		let h = img1.height()
+		let w1 = box.width()
+		let h1 = box.height()
+		console.log(w,h,w1,h1)
+		let autoSize = autoImgSize(w, h, w1, h1)
+		console.log(autoSize)
+		img2.width(autoSize.width)
+		img2.height(autoSize.height)
+	</script>
+</body>
+</html>

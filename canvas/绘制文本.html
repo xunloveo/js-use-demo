@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绘制文本</title>
+</head>
+<body>
+	<canvas id="drawing" width="200" height="200"></canvas>
+
+	<script>
+		let drawing = document.getElementById('drawing')
+		if (drawing.getContext) {
+			let ctx = drawing.getContext('2d')
+
+			// 开始路径
+			ctx.beginPath()
+
+			// 绘制外圆
+			ctx.arc(100, 100, 99, 0, 2 * Math.PI, false)
+
+			// 绘制内圆
+			ctx.moveTo(194, 100)
+			ctx.arc(100, 100, 94, 0, 2 * Math.PI, false)
+
+			// 绘制分针
+			ctx.moveTo(100, 100)
+			ctx.lineTo(100, 15)
+
+			// 绘制时针
+			ctx.moveTo(100, 100)
+			ctx.lineTo(35, 100)
+
+			// 绘制文本
+			ctx.font = "bold 14px Arial"
+			ctx.textAlign = "center"
+			ctx.textBaseLine = "middle"
+			ctx.fillText("12", 100, 20)
+
+			// 起点对齐
+			ctx.textAlign = "start"
+			ctx.fillText("11", 100, 40)
+
+			// 终点对齐
+			ctx.textAlign = "end"
+			ctx.fillText("10", 100, 60)
+
+			// 设置阴影
+			ctx.shadowOffsetX = 5
+			ctx.shadowOffsetY = 5
+			ctx.shadowBlur = 4
+			ctx.shadowColor = "rgba(0, 0, 0, 0.5)"
+
+			ctx.stroke()
+		}
+	</script>
+</body>
+</html>

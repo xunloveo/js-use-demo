@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>节流</title>
+</head>
+<body>
+	<div>
+		没有防抖的输入：
+		<input type="text" id="normal">
+	</div>
+	<div>
+		加入节流后的输入：
+		<input type="text" id="throttle">
+	</div>
+	<script>
+		/**
+		 * 函数节流： 		规定在一个单位时间内，只能有一次触发事件的回调函数执行，如果在同一个单位时间内某事件被触发多次，
+		 * 只有一次能生效
+		 * 
+		 * 应用场景： 鼠标不断地触发某事件(如点击)， 只在单位时间内只触发一次
+		 * 						在页面无限加载场景下，需要用户在滚动页面时，每隔一段时间发一次ajax请求，而不是在用户停下滚动页面操作时才去请求数据
+		 * 						监听滚动事件，比如是否滑到底部自动加载更多
+		 */
+		let ajax = (content) => {
+			console.log('ajax request' + content)
+		} 
+		let inputNormal = document.getElementById('normal')
+		inputNormal.addEventListener('keyup', (e) => {
+			ajax(e.target.value)
+		})
+
+		/**
+		 * [description] 节流函数
+		 * @param  {Function} fn    [description]
+		 * @param  {[type]}   delay [description]
+		 * @return {[type]}         [description]
+		 */
+		let throttle = (fn, delay) => {
+			let last, deferTimer
+			return (...args) => {
+				let now = +new Date()
+				console.log(last, now < last + delay)
+				if (last && now < last + delay) {
+					clearTimeout(deferTimer)
+					deferTimer = setTimeout(() => {
+						last = now 
+						fn(...args)
+					}, delay)
+				} else {
+					console.log(2)
+					last = now
+					fn(...args)
+				}
+			}		
+		}
+
+		/*function throttle(fn, delay) {
+		  var ctx;
+		  var args;
+		  // 记录上次触发事件
+		  var previous = Date.now();
+
+		  var later = function () {
+		    fn.apply(ctx, args);
+		  };
+
+		  return function () {
+		    ctx = this;
+		    args = arguments;
+		    var now = Date.now();
+		    // 本次事件触发与上一次的时间比较
+		    var diff = now - previous - delay;
+		    console.log(diff)
+		    // 如果隔间时间超过设定时间，即再次设置事件触发的定时器
+		    if (diff >= 0) {
+		      // 更新最近事件触发的时间
+		      previous = now;
+		      setTimeout(later, delay);
+		    }
+  		};
+		}*/
+
+		/*var throttle = function (fn, interval) {
+			var _self = fn, // 保存需要被延迟执行的函数引用
+			timer, // 定时器
+			firstTime; // 是否是第一次调用
+
+			return function () {
+			var args = arguments,
+			_me = this;
+
+			if(firstTime) {  // 如果是第一次调用， 不需要延迟执行
+			_self.apply(_me, args);
+			return firstTime = false;
+			}
+
+			if(timer) { // 如果定时器还在， 说明前一次延迟执行还没有完成
+			return false;
+			}
+
+			timer = setTimeout(function() { // 延迟一段时间执行
+				clearTimeout(timer);
+				timer = null;
+				_self.apply(_me, args);
+				}, interval || 500);
+			};
+		};*/
+		let inputThrottle = document.getElementById('throttle')
+		let throttleAjax = throttle(ajax, 2000)
+		inputThrottle.addEventListener('keyup', (e) => {
+			throttleAjax(e.target.value)
+		})
+	</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绘制路径</title>
+</head>
+<body>
+	<canvas id="drawing" width="200" height="200"></canvas>
+
+	<script>
+		/*
+			arc(x, y, radius, startAngle, endAngle, counterclockwise)
+				以(x,y) 为圆心绘制一条弧线，弧线半径为radius,起始和结束角度分别为startAngle,endAngle
+				最后一个参数表示是否按逆时针方向计算，false 表示顺时针
+
+			arcTo(x1, y1, x2, y2, radius) 从上一点开始绘制一条弧线，到(x2, y2)为止，并且以给定的半径radius穿过(x1, y1)
+
+			bezierCurveTo(c1x, c1y, c2x, c2y, x, y) 从上一点开始绘制一条曲线，到(x, y)为止，
+			并且以(c1x, c1y, c2x, c2y)为控制点
+
+			lineTo(x, y) 从上一点绘制一条直线， 到(x, y)为止
+
+			moveTo(x, y) 将绘图游标移动到(x, y) 不画线
+
+			quadraticCurveTo(cx, cy, x, y) 从上一个点绘制一条二次曲线 到(x, y)为止，
+			并且以(cx, cy)为控制点
+
+			rect(x, y, width, height) 从(x, y) 开始绘制一个矩形，宽度和高度由width和height决定
+
+
+			创建了路径之后， 如果想绘制一条连接到路径起点的线条，可以调用closePath(),
+			如果路径已经完成，你想用fillStyle填充它，可以调用fill()
+			调用stroke()进行描边
+			clip() 裁剪
+		 */
+		
+		let drawing = document.getElementById('drawing')
+		if (drawing.getContext) {
+			let ctx = drawing.getContext('2d')
+
+			// 开始路径
+			ctx.beginPath()
+
+			// 绘制外圆
+			ctx.arc(100, 100, 99, 0, 2 * Math.PI, false)
+
+			// 绘制内圆
+			ctx.moveTo(194, 100)
+			ctx.arc(100, 100, 94, 0, 2 * Math.PI, false)
+
+			// 绘制分针
+			ctx.moveTo(100, 100)
+			ctx.lineTo(100, 15)
+
+			// 绘制时针
+			ctx.moveTo(100, 100)
+			ctx.lineTo(35, 100)
+
+			ctx.stroke()
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>插件式的表单验证</title>
+</head>
+<body>
+	用户名：<input type="text" id="username">
+	密码：<input type="password" id="password">
+	<input type="button" value="提交" id="submitBtn">
+
+
+	<script>
+		// 常规做法
+		let userName = document.getElementById('username')
+		let password = document.getElementById("password")
+		let submitBtn = document.getElementById("submitBtn")
+
+		/*let formSubmit = function () {
+			if (userName.value === '') {
+				return alert('用户名不能为空')
+			}
+			if (password.value === '') {
+				return alert('密码不能为空')
+			}
+
+			let param = {
+				username: userName.value,
+				password: password.value
+			}
+
+			// 发送ajax请求 
+			// ajax()
+			//这里使用console.log
+			console.log('success')
+		}*/
+
+		// 常规做法把校验和请求放在一起 职责混乱 二者谈不上任何复用性
+		// 这里 把校验和请求分离 当校验函数返回 true 时 表示校验通过
+		
+		/*let validata = function () {
+			if (userName.value === '') {
+				alert('用户名不能为空')
+				return false
+			}
+			if (password.value === '') {
+				alert('密码不能为空')
+				return false
+			}
+		}
+
+		let formSubmit = function () {
+			if (validata() === false) { // 校验未通过
+				return
+			}
+
+			let param = {
+				username: userName.value,
+				password: password.value
+			}
+
+			// 发送ajax请求 
+			// ajax()
+			//这里使用console.log
+			console.log('success')
+		}*/
+
+		// 现在的代码有了一些改进 把校验的逻辑都放到了validata函数中，但formSubmit函数的内部还要计算validata函数的返回值，
+		// 为了完全分离 首先要改写Function.prototype.before 如果beforefn 返回false 不在执行后面的原函数
+		
+		Function.prototype.before = function (beforefn) {
+			let _self = this
+			return function () {
+				if (beforefn.apply(this, arguments) === false) {
+					return
+				}
+				return _self.apply(this, arguments)
+			}
+		}
+		
+		let validata = function () {
+			if (userName.value === '') {
+				alert('用户名不能为空')
+				return false
+			}
+			if (password.value === '') {
+				alert('密码不能为空')
+				return false
+			}
+		}
+
+		let formSubmit = function () {
+			let param = {
+				username: userName.value,
+				password: password.value
+			}
+
+			// 发送ajax请求 
+			// ajax()
+			//这里使用console.log
+			console.log('success')
+		}
+
+		formSubmit = formSubmit.before(validata)
+		submitBtn.onclick = function () {
+			formSubmit()
+		}
+	</script>
+</body>
+</html>

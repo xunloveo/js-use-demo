@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>防抖</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		#box {
+			height: 100px;
+			margin-top: 50px;
+			text-align: center;
+			background-color: pink;
+		}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+
+	<script>
+		let num = 0
+		function fn (e) {
+			console.log(e)
+			box.innerHTML = num++
+		}
+
+		/**
+		 * [debounce description] 防抖函数
+		 * @param  {Function} fn        [description] 要执行的函数
+		 * @param  {[type]}   delay     [description] 延迟时间
+		 * @param  {[type]}   immediate [description] 是否立即执行
+		 * @return {[type]}             [description]
+		 */
+		function debounce(fn, delay, immediate) {
+			let timer = null
+			let that
+
+			return function(e) {
+				that = this
+				clearTimeout(timer)
+				if (immediate) { // 是否立即执行
+					if (!timer) { //如果没有设置定时器就先执行
+						fn.apply(that, [e])
+					}
+					timer = setTimeout(function () {
+						timer = null //使其在delay毫秒内不能执行，过了delay毫秒内在执行 
+					}, delay)
+
+				} else { // 延迟执行
+					timer = setTimeout(function() {
+						fn.apply(that, [e])
+					}, delay)
+				}
+			}
+		}
+
+		let box = document.getElementById('box')
+
+		// box.onmousemove = function() {
+		// 	fn()
+		// }
+		
+		// 使用防抖
+		box.onmousemove = debounce(fn, 1000, true)
+	</script>
+</body>
+</html>

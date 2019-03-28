@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>绘制矩形</title>
+</head>
+<body>
+	<canvas id="drawing" width="200" height="200"></canvas>
+	<script>
+		let drawing = document.getElementById('drawing')
+		if (drawing.getContext) {
+			let context = drawing.getContext('2d')
+
+			// 绘制红色矩形
+			context.fillStyle = "#ff0000"
+			context.fillRect(10, 10, 50, 50)
+
+			// 绘制半透明的蓝色矩形
+			context.fillStyle = "rgba(0, 0, 255, 0.5)"
+			context.fillRect(30, 30, 50, 50)
+
+			// strokeRect() 方法使用指定的颜色描边
+			context.strokeStyle = "#ff0000"
+			context.strokeRect(60, 60, 50, 50)
+
+			// 绘制半透明描边
+			context.strokeStyle = "rgba(0, 0, 255, 0.5)"
+			context.strokeRect(80, 80, 50, 50)
+
+			// clearRect() 方法 用于清除画布上的矩形区域
+			context.clearRect(50, 50, 50, 50)
+		}
+	</script>
+</body>
+</html>

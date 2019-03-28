@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>防抖</title>
+</head>
+<body>
+	<div>
+		没有防抖的输入：
+		<input type="text" id="normal">
+	</div>
+	<div>
+		加入防抖后的输入：
+		<input type="text" id="debounce">
+	</div>
+	<script>
+		/**
+		 * 防抖： 在事件被触发n秒后再执行回调函数， 如果在这n秒内又被触发，则重新计时
+		 *
+		 * 应用场景： (1)用户在输入框中连续输入一串字符后，只会在输入完成后去执行最后一次的查询ajax请求
+		 * 	可以减少请求次数，节约请求资源
+		 * 		(2)window的resize、scroll事件，不断地调整浏览器的窗口大小，防抖让其只触发一次		 *
+		 * 
+		 */
+			
+			/**
+			 * [description] 模拟ajax
+			 * @param  {[type]} content [description]
+			 * @return {[type]}         [description]
+			 */
+		let ajax = (content) => {
+			console.log('ajax request' + content)
+		} 
+		let inputNormal = document.getElementById('normal')
+		inputNormal.addEventListener('keyup', (e) => {
+			ajax(e.target.value)
+		})
+
+		/**
+		 * [description] 防抖函数
+		 * @param  {Function} fn    [description]
+		 * @param  {[type]}   delay [description] 
+		 * @return {[type]}         [description]
+		 */
+		let debounce = (fn, delay) => {
+			return (args) => {
+				// 每次事件被触发，都会清除当前的timmer, 然后重写设置超时时调用
+				clearTimeout(fn.id)
+				fn.id = setTimeout(() => {
+					fn(args)
+				}, delay)
+			}
+		}
+
+		let debounceAjax = debounce(ajax, 500)
+		let inputDebounce = document.getElementById('debounce')
+		inputDebounce.addEventListener('keyup', (e) => {
+			debounceAjax(e.target.value)
+		})
+
+		window.onresize = () => {
+			let w = document.body.offsetHeight
+			console.log(w)
+			debounceAjax(ajax, 500)(w)
+		}
+	</script>
+</body>
+</html>

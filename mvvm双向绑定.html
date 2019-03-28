@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>实现双向绑定</title>
+</head>
+<body>
+	<input type="text">
+	<span></span>
+
+	<script>
+		const input = document.querySelector('input')
+		const span = document.querySelector('span')
+		const obj = {}
+
+		Object.defineProperty(obj, 'data', {
+			enumerable: false, // 不可枚举
+			configurable: false, // 不可删除
+			set(value) {
+				input.value = value
+				console.log(input.value, value)
+				span.innerText = value
+				console.log(span)
+				_value = value
+			},
+			get() {
+				return _value
+			}
+		})
+		obj.data = '123'
+		input.oninput = e => {
+			obj.data = e.target.value
+			console.log(obj)
+		}		
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>继承</title>
+</head>
+<body>
+	<script>
+		/**
+		 * 绑定构造函数
+		 * 	优点： 可以实现多继承
+		 * 	缺点： 不能继承父类原型方法/属性
+		 */
+		
+		function Animal() {
+			this.species = '动物'
+		}
+		Animal.prototype.func = function() {
+			console.log('func')
+		}
+
+		function Cat() {
+			this.name = 'cat'
+			Animal.apply(this, arguments)
+		}
+
+		function CatSon() {
+			Animal.apply(this, arguments)
+		}
+
+		var cat = new Cat()
+		var catSon = new CatSon()
+
+		console.log(cat)
+		console.log(catSon)
+
+		/**
+		 * 原型链继承
+		 * 优点: 能够继承父类原型实例方法/属性，并且可以捕获父类的原型链改动
+		 * 缺点： 无法实现多继承，会浪费一些内存，需要注意应该将Cat.prototype.constructor重新指向本身
+		 */
+
+		 // function Dog() {
+		 // 		this.name = 'dog'
+		 // }
+		 // Dog.prototype = new Animal()
+		 // Dog.prototype.constructor = Dog
+
+		 // function DogSon() {
+		 // 		this.type = 'son'		 		
+		 // }
+		 // DogSon.prototype = new Dog()
+		 // DogSon.prototype.constructor = DogSon
+
+		 // function Dog1() {
+		 // 	this.name = 'dog1'
+		 // }
+		 // Dog1.prototype = new Animal()
+		 // Dog1.prototype.constructor = Dog1
+		 // var dog = new Dog()
+		 // var dogSon = new DogSon()
+		 // console.log(dog.name, dog.species, dog.func)
+		 // console.log(dogSon.type, dogSon.name, dogSon.species, dogSon.func)
+		 // var dog1 = new Dog1()
+		 // console.log(dog1.name, dog1.species, dog1.func)
+
+		 /**
+		  *
+		  * 结合使用
+		  */
+		 
+
+		// function Animal(){
+		//   this.species = "动物";
+		// }
+		// Animal.prototype.func = function(){
+		//   console.log("heel")
+		// }
+
+		// function Cat(){
+		//   Animal.apply(this, arguments)
+		// }
+		// Cat.prototype = new Animal()
+		// Cat.prototype.constructor = Cat;
+
+		// var cat = new Cat()
+		// console.log(cat.func, cat.species)
+	</script>
+</body>
+</html>

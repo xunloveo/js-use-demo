@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>节流</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+
+		#box {
+			height: 100px;
+			margin-top: 50px;
+			text-align: center;
+			background-color: pink;
+		}
+	</style>
+</head>
+<body>
+	<div id="box"></div>
+
+	<script>
+		let box = document.getElementById('box')
+		let num = 0
+
+		function fn (e) {
+			console.log(e)
+			box.innerHTML = num++
+		}
+
+
+		// 时间搓版的节流
+		function throttleTime (fn, delay) {
+			let last = 0 // 上次执行的时间
+			let now //执行时的时间
+
+			return function (e) {
+				now = Date.now() // 当前时间
+				if (now - last >= delay) { // 若两次时间间隔大于delay, 就执行
+					last = now // 重新赋值
+					console.log(this)
+					fn.apply(this, [e])
+				}
+			}
+		}
+
+		// setTimeout版
+		function throttleTimeOut(fn, delay) {
+			let timer = null
+
+			return function (e) {
+				if (!timer) { // 如果没设置定时器就执行
+					timer = setTimeout(() => {
+						fn.apply(this, [e])
+						timer = null  // 如果delay毫秒就清空timer delay时间执行一次
+					}, delay)
+				}
+			}
+		}
+
+		// 时间搓和setTimeout版的区别就是时间搓是先执行 setTimeout后执行
+		// 结合版
+		// 
+		
+		function throttleCom(fn, delay) {
+			let last = 0
+			let now 
+			let leftTime 
+			let that
+			let timer = null
+
+			return function (e) {
+				that = this
+				now = Date.now()
+				leftTime = delay - (now - last)
+
+				if(leftTime <= 0) {
+					console.log(1)
+					if (timer) {
+						clearTimeout(timer)
+						timer = null
+					}
+					last = now
+					fn.apply(that, [e])
+				} else if (!timer) {
+					console.log(2)
+					timer = setTimeout(function() {
+						last = now // 如果时间满足就让他不满足除了第一次就只让其中一个执行
+						fn.apply(that, [e])
+						timer = null
+					}, delay)
+				}
+			}
+		}
+
+		//box.onmousemove = throttleTime(fn, 1000)	
+		//box.onmousemove = throttleTimeOut(fn, 1000)
+		box.onmousemove = throttleCom(fn, 1000)	
+	</script>
+</body>
+</html>

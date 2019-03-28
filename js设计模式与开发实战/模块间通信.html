@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>模块间通信</title>
+</head>
+<body>
+	<button id="count">点我</button>
+	<div id="show"></div>
+
+	<script>
+		let Event = (function () {
+			let clientList = {}
+			let listen
+			let trigger
+			let remove
+
+			listen = function (key, fn) {
+				console.log('fn', fn)
+				if (!clientList[key]) {
+					clientList[key] = []
+				}
+				clientList[key].push(fn)
+			}
+
+			trigger = function () {
+				let key = Array.prototype.shift.call(arguments)
+				console.log('key', key)
+				let fns = clientList[key]
+				console.log('fns', fns)
+				if (!fns || fns.length === 0) {
+					return false
+				}
+				for (let i = 0, fn; fn = fns[i++];) {
+					fn.apply(this, arguments)
+				}
+			}
+
+			remove = function(key, fn) {
+				let fns = clientList[key]
+				if (!fns) {
+					return false
+				}
+				if (!fn) {
+					fns && (fns.length = 0)
+				} else {
+					for (let j = fns.length - 1; j >= 0; j--) {
+						let _fn = fns[j]
+
+						if (_fn === fn) {
+							fns.splice(j, 1)
+						}
+					}
+				}
+			}
+
+			return {
+				listen,
+				trigger,
+				remove
+			}
+		})()
+		let a = (function() {
+			let count = 0
+			console.log('c')
+			let btn = document.getElementById("count")
+			btn.onclick = function () {
+				Event.trigger('add', count++)
+			}
+		})()
+
+		let b = (function() {
+			let div = document.getElementById("show")
+			console.log(div)
+			Event.listen('add', function(count) {
+				console.log('count', count)
+				div.innerHTML = count
+			})
+		})()
+	</script>
+</body>
+</html>

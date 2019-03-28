@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>负margin</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		#box {
+			width: 200px;
+			height: 200px;	
+			overflow: hidden;		
+		}
+		#first {
+			width: 100%;
+			height: 100%;
+			float: left;
+			margin-right: -100px;
+			background-color: pink;
+		}
+		#second {
+			float: left;
+			width: 100px;
+			height: 100%;
+			background-color: yellow;
+		}
+		
+		ul {
+			list-style: none;
+		}
+
+		li {
+			width: 100px;
+			line-height: 1.3em;
+		}
+
+		.col2 {
+			margin-left: 100px;
+		}
+		.col3 {
+			margin-left: 200px;
+		}
+		.top {
+			margin-top: -2.6em;
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div id="first">first</div>
+		<div id="second">second</div>	
+	</div>
+	
+	<ul>
+		<li class="col1">Eggs</li>
+		<li class="col1">Ham</li>
+		<li class="col2 top">Bread</li>
+		<li class="col2">Butter</li>
+		<li class="col3 top">Flour</li>
+		<li class="col3">Cream</li>
+	</ul>
+</body>
+</html>
