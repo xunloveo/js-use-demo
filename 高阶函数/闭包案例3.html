@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>闭包案例3</title>
+</head>
+<body>
+	<button id="btn1">字体12</button>
+	<button id="btn2">字体18</button>
+	<button id="btn3">字体24</button>
+	<button id="btn4">字体30</button>
+
+	<div id="box">
+		<button data-size="12">字体12</button>
+		<button data-size="18">字体18</button>
+		<button data-size="24">字体24</button>
+		<button data-size="30">字体30</button>
+	</div>
+
+	<script>
+		function changeSize(size) {
+			console.log(1)
+			document.body.style.fontSize = size + 'px'
+		}
+
+		// btn1.onclick = function () {
+		// 	changeSize(12)
+		// }
+		// btn2.onclick = function () {
+		// 	changeSize(18)
+		// }
+		// btn3.onclick = function () {
+		// 	changeSize(24)
+		// }
+		// btn4.onclick = function () {
+		// 	changeSize(30)
+		// }
+
+		// 结合
+		function makeSize(size) {
+			return function () {
+				document.body.style.fontSize = size + 'px'
+			}
+		}
+
+		btn1.onclick = makeSize(12)
+		btn2.onclick = makeSize(18)
+		btn3.onclick = makeSize(24)
+		btn4.onclick = makeSize(30)
+
+		let boxBtn = document.querySelectorAll('#box button')
+		console.log(boxBtn)
+		for (var i = 0; i < boxBtn.length; i++) {
+			var that = boxBtn[i]
+			that.onclick = function () {
+				console.log(this.getAttribute('data-size'))
+				document.body.style.fontSize = this.getAttribute('data-size') + 'px'
+			}
+		}
+	</script>
+</body>
+</html>

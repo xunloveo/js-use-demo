@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>函数作为返回值</title>
+</head>
+<body>
+	<script>
+		/**
+		 * [getType description] 判断变量的类型是否是指定的类型
+		 * @param  {[type]} type [description]
+		 * @return {[type]}      [description]
+		 */
+		function getType(type) {
+			return function (obj) {
+				if (obj === null) return 'null'
+
+				return typeof obj === 'object' ? Object.prototype.toString.call(obj) === type : typeof obj
+			}
+		}
+		var isArray = getType(['object Array'])
+		var isObject = getType(['object Object'])
+
+		console.log(isArray([])) // true
+		console.log(isObject({})) // true
+		console.log(getType()(null))
+		console.log(getType()(undefined))
+		console.log(getType()(2))
+		console.log(getType()('1'))
+		console.log(getType()(true))
+		// 所有自定义的类型toString() 返回的都是[object Object]
+		function Person(name) {
+			this.name = name
+		}
+		let per = new Person('zs')
+		console.log(Object.prototype.toString.call(per)) // [object Object]
+	</script>
+</body>
+</html>

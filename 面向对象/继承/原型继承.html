@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原型继承</title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 原型继承问题
+		// 	无法设置构造函数的参数
+		// 	属性是通过继承的， 原型上成员都是共享的
+		function Person () {
+			this.name = 'zs' 
+			this.age = 18 
+		}
+
+		Person.prototype.say = function () {
+			console.log(this.name)
+		}
+
+		function Student() {
+			this.score = 10
+		}
+
+		// 原型继承
+		Student.prototype = new Person()
+		// 把构造函数重新指向Student
+		Student.prototype.constructor = Student
+
+		let s1 = new Student()
+		s1.name = 'zs'
+		console.dir(s1)
+	</script>
+</body>
+</html>

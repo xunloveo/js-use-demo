@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>构造函数</title>
+</head>
+<body>
+	<script>
+		function Person (name, age, sex) {
+			this.name = name
+			this.age = age 
+			this.sex = sex
+			// 如果写在这里 每一个实例 都会创建一个函数 并且指向不同的内存
+			// 解决方式是用prototype 
+			this.say = function () {
+				console.log('hi' + this.name)
+			}
+		}
+
+		// 通过构造函数的原型 给对象增加成员
+		Person.prototype.sayHi = function () {
+			console.log('hi' + this.name)
+		}
+
+		// 通过构造函数的原型 给对象增加属性
+		Person.prototype.type = 'human'
+
+
+		let p1 = new Person('zs', 18, '男')
+		let p2 = new Person('ls', 20, '男')
+
+		console.log(p1.say === p2.say)  // false
+
+		// 所有对象都可以共享 构造函数原型对象成员
+		console.log(p1.sayHi === p2.sayHi) // true 
+
+		console.dir(Person.prototype) // 原型对象 有一个constructor 属性
+
+		// constructor 作用: 为了让对象/实例 可以获取到创建对象的构造函数
+		/* 返回的是 
+				function Person (name, age, sex) {
+					this.name = name
+					this.age = age 
+					this.sex = sex
+					// 如果写在这里 每一个实例 都会创建一个函数 并且指向不同的内存
+					// 解决方式是用prototype 
+					this.say = function () {
+						console.log('hi' + this.name)
+					}
+				}
+		*/
+		console.log(p1.constructor) 
+		console.log('p1.constructor === Person: ', p1.constructor === Person)
+
+		console.log(p1.type)
+
+		p1.type = 'p1 human'
+
+		console.log(p1.type)
+
+		console.log(p2.type)
+
+		console.dir(p1)
+		console.dir(p2)
+
+		// 每一个对象都有 __proto__
+		// 对象的__proto__ 指向构造函数的原型
+		
+		console.log(p1.__proto__ === Person.prototype)
+
+	</script>
+</body>
+</html>

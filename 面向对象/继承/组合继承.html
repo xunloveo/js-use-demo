@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组合继承</title>
+</head>
+<body>
+	<script type="text/javascript">
+		// 借用构造函数 不能继承方法
+		function Person (name, age) {
+			this.name = name 
+			this.age = age 
+		}
+
+		Person.prototype.say = function () {
+			console.log(this)
+		}
+
+		function Student(name, age, score) {
+			// 1. 把Person当做普通函数 把student传过去
+			Person.call(this, name, age)
+			this.score = score			
+		}
+
+		// 2. 为了继承方法 要设置原型
+		// Student.prototype = new Person()
+		Student.prototype = Person.prototype
+		Student.prototype.constructor = Student
+
+		let s1 = new Student('zs', 18, 100)
+		console.dir(s1)
+		console.log(s1.say())
+	</script>
+</body>
+</html>

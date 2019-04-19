@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>闭包案例2</title>
+</head>
+<body>
+	<script>
+		console.log(111)
+
+		for (var i = 0; i < 3; i++) {
+			setTimeout(function () {
+				console.log(i)
+			}, 0)
+		}
+
+		console.log(222)
+
+
+		// 输出的结果 是 111 222 3 3 3
+		
+		// 期待输出的结果是 111 222 0 1 2
+		
+		// 1. 使用原始的闭包
+		console.log(111)
+
+		for (var i = 0; i < 3; i++) {
+			(function (i){
+				setTimeout(function () {
+					console.log(i)
+				}, 0)
+			})(i)
+		}
+
+		console.log(222)
+
+		// 2. 使用es6的let 命令
+		console.log(111)
+
+		for (let i = 0; i < 3; i++) {
+			setTimeout(function () {
+				console.log(i)
+			}, 0)
+		}
+
+		console.log(222)
+	</script>
+</body>
+</html>

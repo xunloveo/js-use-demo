@@ -43,7 +43,9 @@
 		 * @return {[type]}         [description]
 		 */
 		let debounce = (fn, delay) => {
+			console.log(1)
 			return (args) => {
+				console.log(2)
 				// 每次事件被触发，都会清除当前的timmer, 然后重写设置超时时调用
 				clearTimeout(fn.id)
 				fn.id = setTimeout(() => {

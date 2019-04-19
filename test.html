@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<script type="text/javascript">
+		// let i = 0;
+		// const task = () => new Promise((resolve, reject) => {
+		// 	setTimeout(() => {
+		// 		console.log(i)
+		// 		i++;
+		// 		resolve()
+		// 	}, 1000)
+		// })
+
+		// const tasks = [task, task, task, task]
+
+		// const OutputTask = tasks => {
+		// 	tasks.reduce((promiseChain, task) => {
+		// 		return promiseChain.then(() => {
+		// 			return task()
+		// 		})
+		// 	}, Promise.resolve()) 
+		// }
+
+		// // OutputTask(tasks)
+
+		// Promise.all(tasks).then(() => {console.log('aa')})
+
+
+		// 节点查找
+// 嵌套的树形结构，根据id查value
+const tree = {
+    id: 1,
+    value: 'a',
+    children: [
+        { id: 2, value: 'b', children: [] },
+        { id: 3, value: 'c', children: [] },
+        { id: 4, value: 'd', children: [{ id: 5, value: 'e', children: [] }] }
+    ]
+};
+
+
+let obj = {}
+
+// 先将树形结构转换成 扁形对象
+const transformData = (data) => {
+	obj[data.id] = data.value
+	let len = data.children.length
+	if (len > 0) {
+		for (let i = 0; i < len; i++) {
+			transformData(data.children[i])
+		}
+	}
+}
+
+transformData(tree)
+
+// 判断是否对象有此属性 并且返回此属性值
+const getValById = (data, id) => {
+ if (data.hasOwnProperty(id)){
+ 	return data[id]
+ } else {
+ 	return null
+ }
+}
+console.log(obj)
+// console.log(getValById(obj, 4))
+for (var i = 0; i < 6; i++) {
+    console.log(getValById(obj, i));
+}
+// 预计最终输出
+// getValueById(tree, 0) >>null
+// getValueById(tree, 3) >>c
+// getValueById(tree, 5) >>e
+	//console.log(getValueById(tree, 1));
+
+	</script>
+</body>
+</html>

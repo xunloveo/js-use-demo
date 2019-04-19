@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>函数柯里化</title>
+</head>
+<body>
+	<script>
+		/*
+			函数柯里化是把接受多个参数的函数变换成接受一个单一参数(最初函数的第一个参数)的函数，并且返回接受余下的参数而返回结果的新函数的技术
+		 */
+		
+		function sum (a) {
+			return function (b) {
+				return function (c) {
+					return a + b + c
+				}
+			}
+		}
+
+		let initSum = sum(1)
+		console.log(initSum(2)(3))
+
+		// 将普通函数进行柯里化
+		function curry (fn, args = []) {
+			return function () {
+				let rest = [...args, ...arguments]
+				if (rest.length < fn.length) {
+					return curry.call(this, fn, rest)
+				} else {
+					return fn.apply(this, rest)
+				}
+			}
+		}
+
+		function sum1 (a, b, c) {
+			return a + b + c
+		}
+
+		let sumFn = curry(sum1)
+		console.log(sumFn(1)(2)(3))
+		console.log(sumFn(1)(2, 3))
+		console.log(sumFn(1, 2, 3))
+	</script>
+</body>
+</html>

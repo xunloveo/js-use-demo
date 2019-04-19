@@ -1,4 +1,7 @@
 // 轮播图 操作  无缝滚动原理 复制第一张到最后
+// 两条思路： 1. 克隆第一张到最后和克隆最后一张到最前面
+//  			2. 只克隆第一张到最后 当点击上一张要跳到最后一张的时候 
+//  				立马让index = count 并且移到克隆的那一张
 
 // 0. 获取元素
 var box = document.getElementById('box')
@@ -55,11 +58,11 @@ var index = 0; // 默认第一张索引
 function rightClick() {
 	index++;
 	if (index < count) {
-		//animate(ul, -index * imgWidth)
+		// animate(ul, -index * imgWidth)
 		// 这里委托给序号实现
-		// 让序号高亮显示 
+		// 让序号高亮显示 	
 		ol.children[index].click()
-	} else {
+	} else {		
 		animate(ul, -(index + 1) * imgWidth, function() {
 			index = 0	
 			// ul.style.left = '0'

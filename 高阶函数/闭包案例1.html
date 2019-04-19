@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>闭包案例1</title>
+</head>
+<body>
+	<ul id="box">
+		<li>11111</li>
+		<li>22222</li>
+		<li>33333</li>
+		<li>44444</li>
+		<li>55555</li>
+	</ul>
+	<script>
+		let list = document.querySelectorAll('#box li')
+		let len = list.length
+		function fn(i) {
+			return function () {
+				alert(i)
+			}
+		}
+		
+		for (let i = 0; i < len; i++) {
+			// (function (index) {
+			// 	list[index].onclick = function () {
+			// 		alert(index)
+			// 	}
+			// })(i)
+			list[i].onclick = fn(i)
+		}
+	</script>
+</body>
+</html>

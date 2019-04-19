@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>3D基础属性</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+		}
+
+		#box {
+			position: relative;
+			width: 200px;
+			height: 200px;
+			margin: 20px auto;
+			border: 1px solid grey;
+			/* 3d 效果 远小近大 */
+			perspective: 200px;
+		}
+
+		#box div {
+			width: 100px;
+			height: 100px;
+			background-color: red;
+			position: absolute;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			margin: auto;
+			transition: 5s;
+			transform: rotateX(0);
+		}
+
+		#box:hover div {
+			/*transform: rotateX(360deg);*/
+			transform: translateZ(100px);
+		}
+	</style>
+</head>
+<body>
+	<div id="box">
+		<div></div>
+	</div>
+</body>
+</html>

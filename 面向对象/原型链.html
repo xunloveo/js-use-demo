@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>原型链</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function Person (name, age, sex) {
+			this.name = name 
+			this.age = age 
+			this.sex = sex
+		}
+
+		Person.prototype.say = function () {
+			console.log(this.name)
+		}
+
+		let p1 = new Person('zs', 18, '男')
+
+		// 是根据__proto__ 一级一级的往上找到的 这就是原型链
+		console.log(p1.toString())
+		console.dir(p1)
+		console.log(p1.__proto__.__proto__.toString())
+	</script>
+</body>
+</html>
