@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title>heatmap</title>
@@ -8,102 +9,123 @@
 			margin: 0;
 			padding: 0;
 		}
+
 		div {
 			width: 1614px;
 			height: 1616px;
-		}		
+		}
+
 		img {
 			display: block;
 		}
 	</style>
 	<script src="https://cdn.bootcss.com/heatmap.js/2.0.2/heatmap.min.js"></script>
 </head>
+
 <body>
-		<!-- <img src="1.jpg" id="headtmap" width="400px" height="400px"> -->
-		<div src="1.jpg" id="headtmap">
-			<img src="1.jpg">
-		</div>
+	<!-- <img src="1.jpg" id="headtmap" width="400px" height="400px"> -->
+	<div src="1.jpg" id="headtmap">
+		<img src="1.jpg">
+	</div>
 	<script>
 		let heatmapInstance = h337.create({
 			container: document.querySelector('#headtmap'),
-			backgroundColor: 'rgba(255, 0, 0, .128)'			
+			//backgroundColor: 'rgba(255, 0, 0, .128)',
+			gradient: {
+				'0.2': '#e803eb',
+				'0.4': '#207cca',
+				'0.6': '#31ff00',
+				'0.8': '#f8ff00',
+				'0.95': '#ff0500'
+			},
+			// maxOpacity: .5,
+			// minOpacity: 0,
+			// blur: .75,
 		})
 
-		// var points = [];
+		var points = [];
 
 		var max = 0;
 
-		// var width = 400;
+		var width = 400;
 
-		// var height = 400;
+		var height = 400;
 
-		// var len = 20;
+		var len = 20;
 
-		// while (len--) {
+		while (len--) {
 
-		//   var val = Math.floor(Math.random()*100);
+			var val = Math.floor(Math.random() * 100);
 
-		//   var radius = Math.floor(Math.random()*70);
+			var radius = Math.floor(Math.random() * 70);
 
-		//   max = Math.max(max, val);
+			max = Math.max(max, val);
+			console.log('max', max)
 
-		//   var point = {
+			var point = {
 
-		//     x: Math.floor(Math.random()*width),
+				x: Math.floor(Math.random() * 80 + 200),
 
-		//     y: Math.floor(Math.random()*height),
+				y: Math.floor(Math.random() * 20 + 200),
 
-		//     value: val,
+				value: val,
 
-		//     radius: radius
+				radius: radius,
 
-		//   };
+			};
 
-		//   points.push(point);
+			points.push(point);
 
-		// }
+		}
 		// 
-		var points = [{
-          x: 668,
-          y: 335,
-          value: 1,
-          radius: 10
-        },
-        {
-          x: 555,
-          y: 351
-        },
-        {
-          x: 500,
-          y: 482
-        },
-        {
-          x: 602,
-          y: 593
-        },
-        {
-          x: 802,
-          y: 660
-        },
-        {
-          x: 851,
-          y: 511
-        },
-        {
-          x: 815,
-          y: 393
-        }]
+		// var points = [{
+		// 		x: 668,
+		// 		y: 335,
+		// 		value: 1,
+		// 		radius: 10
+		// 	},
+		// 	{
+		// 		x: 555,
+		// 		y: 351
+		// 	},
+		// 	{
+		// 		x: 500,
+		// 		y: 482
+		// 	},
+		// 	{
+		// 		x: 602,
+		// 		y: 593
+		// 	},
+		// 	{
+		// 		x: 802,
+		// 		y: 660
+		// 	},
+		// 	{
+		// 		x: 851,
+		// 		y: 511
+		// 	},
+		// 	{
+		// 		x: 815,
+		// 		y: 393
+		// 	}
+		// ]
 
-		var data = { 
+		var data = {
 
-		  max: max, 
+			//max: max,
 
-		  data: points 
+			data: points,
+			min: 0,
+
+			max: max,
+
+
+
 
 		};
 
 		heatmapInstance.setData(data);
-
 	</script>
 </body>
+
 </html>

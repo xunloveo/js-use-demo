@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>记忆</title>
+</head>
+<body>
+	<script type="text/javascript">
+		var j = 0;
+		// 最基本的递归函数实现fibonacci数列，但是在运行的时候做了很多无畏的工作，
+		// 我们调用了11次 但他自身用了442次计算可能已被计算过的值，所以为了减少运算量 让该函数具备记忆功能
+		var fibonacci = function (n) {
+			j++;
+			return n < 2 ? n : fibonacci(n-1) + fibonacci(n-2)
+		}
+		for (var i = 0; i <= 10; i++) {
+			document.writeln('// ' + i + ': ' + fibonacci(i) + '<br />')
+		}
+		document.write('共调用： ' + j + '次<br />')
+		console.log('j', j)
+
+		// 优化： 具备记忆功能
+		// 我们在一个名为memo的数组里保存我们存储的结果，存储结果可以隐藏在闭包中，当我们的函数
+		// 被调用时，这个函数首先判断是否已经知道存储结果，如果已经知道，就立刻返回这个结果
+		// 当使用记忆保存之后，总共被调用了29次，我们调用了11次， 它自身调用了18次去取的之前存储的结果
+		var fibonacciY = function() {
+			var memo = [0, 1]
+			console.log(1)
+			var fib = function (n) {
+				k++
+				var result = memo[n]
+				if (typeof result !== 'number') {
+					result = fib(n-1) + fib(n-2)
+					memo[n] = result
+				}
+				return result
+			}
+			return fib
+		}();
+
+		var k = 0;
+		document.writeln('记忆优化：<br />')
+		for (var i = 0; i <= 10; i++) {
+			document.writeln('// ' + i + ': ' + fibonacciY(i) + '<br />')
+		}
+		console.log('k', k)
+		document.write('共调用： ' + k + '次<br />')
+
+		// 把上面的形式一般化 可以适用于各种形式 
+		// memoizer将取得一个初始的memo数组和fundamental函数
+		var memoizer = function (memo, fundamental) {
+			var shell = function (n) {
+				var result = memo[n]
+				if (typeof result !== 'number') {
+					result = fundamental(shell, n)
+					memo[n] = result
+				}
+				return result
+			}
+			return shell
+		}
+
+		var fibonacciM = memoizer([0, 1], function(shell, n) {
+			return shell(n - 1) + shell(n - 2)
+		})
+
+		for (var i = 0; i <= 10; i++) {
+			document.writeln('// ' + i + ': ' + fibonacciM(i) + '<br />')
+		}
+
+		// 阶乘
+		var factorial = memoizer([1, 1], function(shell, n) {
+			return n * shell(n - 1)
+		})
+
+		for (var i = 0; i <= 10; i++) {
+			document.writeln('// ' + i + ': ' + factorial(i) + '<br />')
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>排序算法</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function ArrayList() {
+			var array = []
+
+			this.insert = function (item) {
+				array.push(item)
+			}
+
+			this.toString = function () {
+				return array.join()
+			}
+
+			// 1. 冒泡排序(比较相邻的良两项)
+			this.bubbleSort = function () {
+				var length = array.length
+				for (var i = 0; i < length; i++) {
+					for ( var j = 0; j < length - 1; j++) {
+						if (array[j] > array[j+1]) {
+							swap(j, j+1)
+						}
+					}
+				}
+			}
+
+			// 1.1 改进后的冒泡排序
+			this.modifiedBubbleSort = function () {
+				var length = array.length
+				for (var i = 0; i < length; i++) {
+					for ( var j = 0; j < length - 1 - i; j++) {
+						if (array[j] > array[j+1]) {
+							swap(j, j+1)
+						}
+					}
+				}
+			}
+
+			// 2. 选择排序 (找到数据结构中的最小值将其放到第一位，依次类推)
+			this.selectSort = function () {
+				var length = array.length,
+						indexMin
+				for(var i = 0; i < length - 1; i++) {
+					indexMin = i
+					for (var j = i; j < length; j++) {
+						if (array[indexMin] > array[j]) {
+							indexMin = j
+						}
+					}
+
+					if (i !== indexMin) {
+						swap(i, indexMin)
+					}
+				}
+			}
+
+			var swap = function (index1, index2) {
+				var aux = array[index1]
+				array[index1] = array[index2]
+				array[index2] = aux
+			}
+
+			// 3. 插入排序 （每次排一个数组项，假定第一项已经排序， 接着，它和第二项进行比较，
+			// 第二项应该待在原位还是插到第一项之前呢？头两项已正确排序，接着和第三项比较（
+			// 它是该插入到第一，第二还是第三的位置呢？ 以此类推）
+			this.insertSort = function () {
+				var length = array.length,
+						j, temp
+
+				// 默认第一个位置已经排序 从第二个位置开始
+				for (var i = 1; i < length; i++) {
+					j = i
+					temp = array[i]
+					while (j > 0 && array[j-1] > temp) {
+						array[j] = array[j-1]
+						j--
+					}
+					array[j] = temp
+				}
+			}
+
+			// 4. 归并排序 (将原始数组切分成较小的数组，直到每个小数组只有一个位置
+			// 接着将小数组归并成较大的数组，直到最后只有一个排序完毕的大数组)
+			
+			this.mergeSort = function () {
+				array = mergeSortRec(array)
+			}
+
+			// 递归函数
+			var mergeSortRec = function (array) {
+				var length = array.length
+				if (length === 1) {
+					return array
+				}
+
+				var mid = Math.floor(length / 2),
+						left = array.slice(0, mid),
+						right = array.slice(mid, length)
+
+				return merge(mergeSortRec(left), mergeSortRec(right))
+			}
+
+			var merge = function (left, right) {
+				var result = [], il = 0, ir = 0
+
+				while (il < left.length && ir < right.length) {
+					if (left[il] < right[ir]) {
+						result.push(left[il++])
+					} else {
+						result.push(right[ir++])
+					}
+				}
+
+				while (il < left.length) {
+					result.push(left[il++])
+				}
+
+				while (ir < right.length) {
+					result.push(right[ir++])
+				}
+
+				return result
+			}
+
+
+			// 5. 快速排序
+			// 	(1) 首先，从数组中选择中间一项作为主元
+			// 	(2) 创建两个指针，左边一个指向数组第一项，右边一个指向数组最后一项，
+			// 			移动左指针知道我们找到一个比主元大的元素，接着，移动右指针直到找到
+			// 			一个比主元小的元素，然后交换它们，重复这个过程，直到左指针超过了右指针
+			// 			这个过程将使得比主元小的都排在主元之前，而比主元大的值都排在主元之后
+			// 			这一步叫做划分操作
+			// 	(3) 接着， 算法对划分后的小数组(较主元小的值组成子数组，以及较主元大的值组成的
+			// 			子数组)重复之前的两个步骤，直至数组已完全排序
+			// 			
+			
+			this.quickSort = function () {
+				quick(array, 0, array.length - 1)
+			}
+
+			var quick = function (array, left, right) {
+				var index
+
+				if (array.length > 1) {
+					index = partition(array, left, right)
+
+					if (left < index - 1) {
+						quick(array, left, index - 1)
+					}
+
+					if (index < right) {
+						quick(array, index, right)
+					}
+				}
+			}
+			 
+			var partition = function (array, left, right) {
+				var pivot = array[Math.floor((right + left) / 2)], // 主元
+						i = left, j = right
+
+				while (i <= j) {
+					while (array[i] < pivot) {
+						i++
+					}
+					while (array[j] > pivot) {
+						j--
+					}
+					if (i <= i) {
+						swapQuickStort(array, i, j)
+						i++
+						j--
+					}
+				}
+				return i
+			}
+
+			var swapQuickStort = function (array, index1, index2) {
+				var aux = array[index1]
+				array[index1] = array[index2]
+				array[index2] = aux
+			}
+			
+		}
+
+		// 测试
+		function createNonSortedArray (size) {
+			var array = new ArrayList()
+			for (var i = size; i > 0; i--) {
+				array.insert(i)
+			}
+			return array
+		}
+
+		var array = createNonSortedArray(5)
+		console.log(array.toString())
+		//array.bubbleSort()
+		// array.modifiedBubbleSort()
+		// console.log('冒泡排序后： ', array.toString())
+
+		// array.selectSort()
+		// console.log('选择排序后：', array.toString())
+		// 
+		
+		// array.insertSort()
+		// console.log('插入排序后：', array.toString())
+		// 
+		
+		// array.mergeSort()
+		// console.log('归并排序后：', array.toString())
+		// 
+		
+		array.quickSort()
+		console.log('快速排序后：', array.toString())
+	</script> 
+</body>
+</html>

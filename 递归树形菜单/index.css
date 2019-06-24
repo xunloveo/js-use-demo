@@ -1,0 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+#lists {
+  margin-left: 40px;
+}
+
+li {
+  list-style: none;
+  position: relative;
+}
+
+li span + ul {
+  padding-left: 20px;
+}
+
+li span {
+  color: red;
+  position: absolute;
+  left: -20px;
+}
