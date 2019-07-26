@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>阴影操作</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      #bar {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .box {
+        margin: 10px;
+        width: 100px;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        border: 1px solid #ccc;
+        /* 模糊半径+扩展半径 = 0 */
+        box-shadow: 0px 7px 5px -5px #333;
+      }
+      .box2 {
+        box-shadow: 5px 5px 5px 0px #333;
+      }
+      .box3 {
+        box-shadow: 0px 7px 5px -5px #333, 0px -7px 5px -5px #333;
+      }
+      .box4 {
+        box-shadow: 0px 0 5px 5px #333;
+      }
+
+      .shadow {
+        position: relative;
+        width: 250px;
+        height: 250px;
+      }
+
+      .shadow::before {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        top: -50px;
+        left: -50px;
+        /* animation: change 3s infinite linear alternate; */
+        animation: move 3s infinite linear;
+        box-shadow: 50px 50px #000, 150px 50px #000, 250px 50px #000,
+          50px 100px #000, 150px 100px #000, 250px 100px #000, 50px 150px #000,
+          150px 150px #000, 250px 150px #000, 50px 200px #000, 150px 200px #000,
+          250px 200px #000, 50px 250px #000, 150px 250px #000, 250px 250px #000;
+      }
+
+      @keyframes change {
+        25% {
+          transform: scale(0.5);
+        }
+      }
+
+      @keyframes move {
+        25% {
+          transform: translate(50px);
+          color: coral;
+          box-shadow: 50px 50px, 150px 50px, 250px 50px, 50px 100px, 150px 100px,
+            250px 100px, 50px 150px, 150px 150px, 250px 150px, 50px 200px,
+            150px 200px, 250px 200px, 50px 250px, 150px 250px, 250px 250px;
+        }
+        50% {
+          transform: translate(0px);
+          color: brown;
+          border-radius: 0;
+          box-shadow: 50px 50px, 150px 50px, 250px 50px, 100px 100px,
+            200px 100px, 300px 100px, 50px 150px, 150px 150px, 250px 150px,
+            100px 200px, 200px 200px, 300px 200px, 50px 250px, 150px 250px,
+            250px 250px;
+        }
+        75% {
+          transform: translate(0px);
+          color: teal;
+          border-radius: 50%;
+          box-shadow: 50px 50px, 150px 50px, 250px 50px, 100px 100px,
+            200px 100px, 300px 100px, 50px 150px, 150px 150px, 250px 150px,
+            100px 200px, 200px 200px, 300px 200px, 50px 250px, 150px 250px,
+            250px 250px;
+        }
+        100% {
+          border-radius: 0%;
+          box-shadow: 50px 50px, 150px 50px, 250px 50px, 50px 100px, 150px 100px,
+            250px 100px, 50px 150px, 150px 150px, 250px 150px, 50px 200px,
+            150px 200px, 250px 200px, 50px 250px, 150px 250px, 250px 250px;
+        }
+      }
+
+      .shadow1 {
+        position: relative;
+        width: 600px;
+        height: 100px;
+        background: hsl(48, 100%, 50%);
+        border-radius: 20px;
+      }
+
+      .shadow1::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 5%;
+        right: 5%;
+        bottom: 0;
+        border-radius: 10px;
+        background: hsl(48, 100%, 20%);
+        transform: translate(0, -15%) rotate(-4deg);
+        transform-origin: center center;
+        box-shadow: 0 0 20px 15px hsl(48, 100%, 20%);
+        z-index: -1;
+      }
+      #cc {
+        margin-top: 20px;
+        border: 2px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="bar">
+      <div class="box">单侧阴影</div>
+      <div class="box box2">邻侧阴影</div>
+      <div class="box box3">对侧阴影</div>
+      <div class="box box4">四周阴影</div>
+    </div>
+    <h1>利用多层阴影进行补间动画</h1>
+    <div class="shadow"></div>
+    <h2>立体阴影</h2>
+    <div class="shadow1"></div>
+    <canvas id="cc" width="200" height="100"></canvas>
+  </body>
+  <script>
+    var c = document.getElementById('cc')
+
+    var hb = c.getContext('2d')
+
+    hb.beginPath()
+
+    hb.lineWidth = 1
+
+    hb.moveTo(50, 50)
+    hb.lineTo(51, 51)
+
+    hb.stroke()
+
+    hb.endPath()
+  </script>
+</html>

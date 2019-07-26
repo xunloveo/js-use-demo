@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>马赛克效果</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html, body  {
+			height: 100%;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="cav"></canvas>
+	<script type="text/javascript">
+		let cav = document.querySelector('#cav')
+		cav.setAttribute('width', document.documentElement.offsetWidth)
+		cav.setAttribute('height', document.documentElement.offsetHeight)
+		let ctx = cav.getContext('2d')
+
+		let imageData = ctx.createImageData(500, 500)
+		let pixels = imageData.data
+
+		// 马赛克的个数
+		let numTileRows = 40
+		let numTileCols = 40
+
+		// 每个块的尺寸
+		let tileWidth = imageData.width / numTileCols
+		let tileHeight = imageData.height / numTileRows
+
+		for (let r = 0; r < numTileRows; r++) {
+			for (let c = 0; c < numTileCols; c++) {
+				// 为每个设置像素的颜色值
+				let red = Math.random() * 256 >> 0
+				let green = Math.random() * 256 >> 0
+				let bule = Math.random() * 256 >> 0
+
+				// 
+				for (let tr = 0; tr < tileHeight; tr++) {
+					for (let tc = 0; tc < tileWidth; tc++) {
+						let trueX = c * tileWidth + tc
+						let trueY = r * tileHeight + tr
+
+						let pos = (trueY * (imageData.width * 4)) + (trueX * 4)
+						pixels[pos] = red
+						pixels[pos +1 ] = green
+						pixels[pos + 2] = bule
+						pixels[pos + 3] = 255
+					}
+				}
+			}
+		}
+
+		// 绘制到画布上
+		ctx.putImageData(imageData, 0, 0)
+
+
+	</script>
+</body>
+</html>

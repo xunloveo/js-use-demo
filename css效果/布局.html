@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>布局</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .justify {
+        text-align: justify;
+        /* text-align-last: justify; */
+      }
+
+      /* 使用伪元素实现
+      原因在于 justify 只有在存在第二行的情况下，第一行才两端对齐，所以在这里，
+      我们需要制造一个假的第二行，而 :after 伪元素正好再适合不过 */
+      .justify::after {
+        content: '';
+        display: inline-block;
+        position: relative;
+        width: 100%;
+      }
+      i {
+        width: 24px;
+        line-height: 24px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 50%;
+        background-color: #000;
+        color: #fff;
+        font-style: normal;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="justify">
+        <i>1</i>
+        <i>2</i>
+        <i>3</i>
+        <i>4</i>
+        <i>5</i>
+      </div>
+    </div>
+  </body>
+</html>

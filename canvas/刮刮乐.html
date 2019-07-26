@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      #canvas {
+        border: solid 2px #000;
+      }
+      #price {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 300px;
+        text-align: center;
+        line-height: 204px;
+        font-size: 40px;
+        color: red;
+        user-select: none;
+        z-index: -1;
+      }
+    </style>
+    <title>刮刮乐</title>
+  </head>
+  <body>
+    <canvas id="canvas" width="300" height="200"></canvas>
+    <div id="price"></div>
+    <script>
+      window.onload = function() {
+        let priceData = ['1个亿', '500百万', '10万', '5元', '谢谢惠顾']
+        let price = document.querySelector('#price')
+        price.innerHTML = priceData[parseInt(Math.random() * priceData.length)]
+        let canvas = document.querySelector('#canvas')
+        let ctx = canvas.getContext('2d')
+        ctx.lineWidth = 5
+        ctx.strokeStyle = 'blue'
+
+        // 绘制矩形
+        ctx.rect(0, 0, 300, 200)
+        ctx.fillStyle = 'gray'
+        ctx.fill()
+
+        // 鼠标按下事件
+        canvas.onmousedown = function() {
+          canvas.onmousemove = function(e) {
+            // 清除
+            ctx.clearRect(e.clientX, e.clientY, 20, 20)
+          }
+        }
+
+        // 鼠标弹起
+        canvas.onmouseup = function() {
+          canvas.onmousemove = null // 清除事件
+        }
+      }
+    </script>
+  </body>
+</html>

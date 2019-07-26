@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>test</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+
+      .left-top {
+        height: 0;
+        width: 20px;
+        border-right: 5px solid transparent;
+        position: absolute;
+        left: -5px;
+        top: -5px;
+      }
+      .left-top-right {
+        border-bottom: 5px solid red;
+      }
+      .left-top-left {
+        border-top: 5px solid red;
+        left: 0;
+        transform: rotate(90deg);
+        transform-origin: 0 0;
+      }
+      .center {
+        width: 100px;
+        height: 100px;
+        background-color: pink;
+        position: relative;
+        margin: 100px auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="center">
+      <div class="left-top left-top-right"></div>
+      <!-- <div class="left-top left-top-left"></div> -->
+    </div>
+  </body>
+</html>

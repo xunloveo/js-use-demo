@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>canvas动画</title>
+	<style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		html, body {
+			height: 100%;
+			width: 100%;
+			overflow: hidden;
+		}
+		#cav {
+			display: block;
+			background: #001022;
+		}
+		#myButtons {
+			position: absolute;
+			bottom: 20px;
+			left: 20px;
+		}
+		#myButtons button {
+			padding: 5px;
+		}
+	</style>	
+
+	<script src="jq.js"></script>
+</head>
+<body>
+	<canvas id="cav" width="500" height="500"></canvas>
+	<div id="myButtons">
+		<button id="startAnimation">Start</button>
+		<button id="stopAnimation">Stop</button>
+	</div>
+	
+	<script src="asteroids.js"></script>
+</body>
+</html>
